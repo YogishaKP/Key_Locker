@@ -4,20 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Data</title>
 </head>
 <body>
-    
+    <p id="data-id"></p>
     <script>
+        var prev = 0
         const getInput = () => {
             fetch("http://localhost:5000")
             .then(resp => resp.json())
-            .then(res => console.log(res))
+            .then(res =>{
+                if(res.status){
+                    if(res.status.slice(-8)!=prev){
+                        prev = res.status.slice(-8)
+                        document.getElementById('data-id').innerText = prev
+                        console.log(prev)
+                        return
+                    }
+                }
+            } )
             .catch(err => console.log(err))
+
+            setTimeout(getInput,500)
         }
-        (function(){
-            getInput()
-        })()
+        
+        window.onload = getInput
+
     </script>
 </body>
 </html>
